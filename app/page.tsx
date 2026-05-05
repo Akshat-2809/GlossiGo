@@ -1,4 +1,6 @@
-import Navbar from "@/components/LandingPage/navbar";
+"use client";
+
+import { useEffect } from "react";
 import HeroSection from "@/components/LandingPage/HeroSection";
 import Marquee from "@/components/LandingPage/marquee";
 import ServicesSection from "@/components/LandingPage/servicesSection";
@@ -9,9 +11,12 @@ import DoorStep from "@/components/LandingPage/doorstep";
 import Plans from "@/components/LandingPage/plans";
 
 export default function Home() {
+	useEffect(() => {
+		window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+	}, []);
+
 	return (
 		<>
-			<Navbar />
 			<HeroSection />
 			<Marquee />
 			<AboutUs />
@@ -20,8 +25,6 @@ export default function Home() {
 			<Plans />
 			<DoorStep />
 			<Footer />
-			
-			
 		</>
 	);
 }
