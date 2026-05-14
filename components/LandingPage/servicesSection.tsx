@@ -358,7 +358,7 @@ export default function ServicesSection() {
                   textTransform: "uppercase",
                 }}
               >
-                /public/about-car.webp
+                /public/studio.webp
               </div>
             </div>
           )}
@@ -370,7 +370,7 @@ export default function ServicesSection() {
               style={{ opacity: imageLoaded ? 1 : 0, transition: "opacity 0.6s ease" }}
             >
               <Image
-                src="/about-car.webp"
+                src="/studio.webp"
                 alt="Freshly detailed car at GlossiGo Studio"
                 fill
                 sizes="(max-width: 960px) 100vw, 50vw"
@@ -479,7 +479,7 @@ export default function ServicesSection() {
             }}
           >
             <Link
-              href="#plans"
+              href="/plans"
               style={{
                 display: "inline-flex",
                 alignItems: "center",

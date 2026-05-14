@@ -188,7 +188,7 @@ function CtaSection() {
           display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
 
           <PrimaryBtn href="#contact-form" label="Book a Detail" />
-          <GhostBtn href="tel:+919829256300" label="Call Us Now" icon={
+          <GhostBtn href="tel:+919799023966" label="Call Us Now" icon={
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
               <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"
                 stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -242,8 +242,8 @@ function ContactSection() {
       .filter(line => line !== null)
       .join("\n");
 
-    // GlossiGo WhatsApp number: 9829256300
-    const waUrl = `https://wa.me/919829256300?text=${encodeURIComponent(text)}`;
+    // GlossiGo WhatsApp number: 9799023966
+    const waUrl = `https://wa.me/919799023966?text=${encodeURIComponent(text)}`;
 
     window.open(waUrl, "_blank", "noopener,noreferrer");
   };
@@ -288,11 +288,11 @@ function ContactSection() {
               <p style={{ fontFamily:"'Outfit',sans-serif", fontSize:9, fontWeight:600,
                 letterSpacing:"0.2em", textTransform:"uppercase",
                 color:"rgba(255,255,255,0.22)", marginBottom:6 }}>Phone</p>
-              <a href="tel:+919829256300" style={{
+              <a href="tel:+919799023966" style={{
                 fontFamily:"'DM Serif Display',serif", fontSize:22,
                 color:"#fff", textDecoration:"none", letterSpacing:"-0.01em",
                 display:"block",
-              }}>+91 98292 56300</a>
+              }}>+91 97990 23966</a>
               <p style={{ fontFamily:"'Outfit',sans-serif", fontSize:12,
                 color:"rgba(255,255,255,0.28)", marginTop:4 }}>Mon – Sun, 9 AM – 8 PM</p>
             </div>
@@ -361,7 +361,7 @@ function ContactSection() {
           {/* Social buttons */}
           <div style={{ display:"flex", gap:10 }}>
             {/* WhatsApp */}
-            <SocialBtn href="https://wa.me/919829256300" label="WhatsApp" icon={
+            <SocialBtn href="https://wa.me/919799023966" label="WhatsApp" icon={
               <svg width="15" height="15" viewBox="0 0 24 24">
                 <path fill="var(--green)" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
                 <path fill="var(--green)" d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.103 1.51 5.833L.036 24l6.324-1.654A11.93 11.93 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.78 9.78 0 0 1-5.002-1.374l-.36-.213-3.714.972.993-3.62-.235-.374A9.78 9.78 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/>

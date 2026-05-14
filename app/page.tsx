@@ -19,10 +19,10 @@ export default function Home() {
 		<>
 			<HeroSection />
 			<Marquee />
-			<AboutUs />
 			<ServicesSection />
-			<GallerySection />
 			<Plans />
+			<AboutUs />
+			<GallerySection />
 			<DoorStep />
 			<Footer />
 		</>

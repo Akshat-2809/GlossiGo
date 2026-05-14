@@ -38,10 +38,8 @@ const PLANS = [
     popular: true,
     features: [
       "Everything in Full Wash",
-      "Foam cannon pre-wash",
       "Clay bar treatment",
-      "Sealant application",
-      "Interior deep clean",
+      "Tyre restoration",
     ],
   },
 ];
@@ -235,7 +233,7 @@ function PlanCard({ plan }: { plan: typeof PLANS[0] }) {
 
         {/* CTA */}
         <Link
-          href="/#contact"
+          href="/book-now"
           style={{
             display: "block",
             textAlign: "center",
@@ -311,11 +309,33 @@ export default function PlansSection() {
           align-items: stretch;
         }
 
+        .ps-explore-btn {
+          background: transparent !important;
+          border: 1px solid rgba(255,255,255,0.08) !important;
+          color: rgba(255,255,255,0.35) !important;
+        }
+
         @media (max-width: 860px) {
           .ps-grid {
             grid-template-columns: 1fr !important;
             max-width: 420px;
             margin: 0 auto;
+          }
+
+          .ps-explore-btn {
+            background: #3E9C40 !important;
+            border: 1.5px solid #3E9C40 !important;
+            color: #fff !important;
+          }
+
+          .ps-pills {
+            flex-direction: column !important;
+            align-items: flex-start;
+          }
+
+          .ps-pill {
+            width: 100%;
+            box-sizing: border-box;
           }
         }
       `}</style>
@@ -383,6 +403,7 @@ export default function PlansSection() {
 
           <Link
             href="/plans"
+            className="ps-explore-btn"
             style={{
               display: "inline-flex", alignItems: "center", gap: 10,
               fontFamily: "'Outfit', sans-serif",
@@ -409,6 +430,114 @@ export default function PlansSection() {
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
+          </Link>
+        </div>
+
+        {/* Quick-value pill badges */}
+        <div className="ps-pills" style={{
+          display: "flex",
+          gap: 12,
+          marginBottom: 32,
+          flexWrap: "wrap",
+        }}>
+          {/* Dark pill — Top Wash ≈ ₹88/day */}
+          <Link
+            href="/plans"
+            className="ps-pill ps-pill--dark"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.09)",
+              borderRadius: 100,
+              padding: "10px 18px",
+              textDecoration: "none",
+              transition: "all 0.22s",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "rgba(62,156,64,0.1)";
+              el.style.borderColor = "rgba(62,156,64,0.35)";
+              el.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "rgba(255,255,255,0.04)";
+              el.style.borderColor = "rgba(255,255,255,0.09)";
+              el.style.transform = "translateY(0)";
+            }}
+          >
+            <span style={{ fontSize: 14, lineHeight: 1 }}>⚡</span>
+            <span style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: 13,
+              fontWeight: 700,
+              color: "rgba(255,255,255,0.9)",
+              letterSpacing: "-0.01em",
+            }}>
+              Just ₹88/day
+            </span>
+            <span style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: 12,
+              color: "rgba(255,255,255,0.35)",
+              fontWeight: 400,
+            }}>
+              for premium car care
+            </span>
+          </Link>
+
+          {/* Green pill — Premium Wash ≈ ₹111/day */}
+          <Link
+            href="/plans"
+            className="ps-pill ps-pill--green"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: "rgba(62,156,64,0.08)",
+              border: "1px solid rgba(62,156,64,0.22)",
+              borderRadius: 100,
+              padding: "10px 18px",
+              textDecoration: "none",
+              transition: "all 0.22s",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "rgba(62,156,64,0.18)";
+              el.style.borderColor = "rgba(62,156,64,0.55)";
+              el.style.boxShadow = "0 4px 20px rgba(62,156,64,0.12)";
+              el.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "rgba(62,156,64,0.08)";
+              el.style.borderColor = "rgba(62,156,64,0.22)";
+              el.style.boxShadow = "none";
+              el.style.transform = "translateY(0)";
+            }}
+          >
+            <span style={{ fontSize: 14, lineHeight: 1 }}>⚡</span>
+            <span style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: 13,
+              fontWeight: 700,
+              color: "#3E9C40",
+              letterSpacing: "-0.01em",
+            }}>
+              Just ₹111/day
+            </span>
+            <span style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: 12,
+              color: "rgba(255,255,255,0.35)",
+              fontWeight: 400,
+            }}>
+              for premium car care
+            </span>
           </Link>
         </div>
 

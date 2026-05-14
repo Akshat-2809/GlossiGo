@@ -697,7 +697,7 @@ export default function GalleryPage() {
             >
               Book a Detail →
             </Link>
-            <Link href="/#plans" style={{
+            <Link href="/plans" style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               border: "1px solid rgba(255,255,255,0.1)",
               color: "rgba(255,255,255,0.4)",

@@ -6,8 +6,8 @@ import Link from "next/link";
 const NAV_LINKS = [
   { label: "About",    href: "/#about-us" },
   { label: "Services", href: "/#services", hasDropdown: true },
-  { label: "Plans",    href: "/#plans" },
-  { label: "Gallery",  href: "/#gallery" },
+  { label: "Plans",    href: "/plans" },
+  { label: "Gallery",  href: "/gallery" },
   { label: "Blog",     href: "/blog" },
   { label: "Contact",  href: "/contact" },
 ];
@@ -391,7 +391,7 @@ export default function Navbar() {
             borderTop:"1px solid rgba(255,255,255,0.05)",
             display:"flex", flexDirection:"column", gap:14,
           }}>
-            <a href="tel:+919829256300" style={{
+            <a href="tel:+919799023966" style={{
               display:"inline-flex", alignItems:"center", gap:10,
               fontFamily:"'Outfit',sans-serif", fontSize:13,
               color:"rgba(255,255,255,0.32)", textDecoration:"none",
@@ -401,7 +401,7 @@ export default function Navbar() {
                   stroke="var(--green,#3E9C40)" strokeWidth="1.6"
                   strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              +91 98292 56300
+              +91 97990 23966
             </a>
             <a href="https://www.instagram.com/gloosigodetailing/"
               target="_blank" rel="noopener noreferrer" style={{

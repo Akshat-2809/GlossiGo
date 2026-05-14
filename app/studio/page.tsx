@@ -5,7 +5,7 @@ import Link from "next/link";
 import Footer from "@/components/LandingPage/footer";
 
 /* ─────────────────────────────────────────────
-   DOORSTEP DETAILING PAGE — /doorstep
+   STUDIO PAGE — /studio
    GlossiGo — WhatsApp enquiry same as contact page
 ───────────────────────────────────────────── */
 
@@ -15,7 +15,7 @@ const HOW_IT_WORKS = [
   {
     step: "01",
     title: "Book a Slot",
-    desc: "Fill in the enquiry form below. Tell us your car, location, and preferred time. We'll confirm within 2 hours.",
+    desc: "Fill in the enquiry form below. Tell us your car, service, and preferred time. We'll confirm your studio appointment within 2 hours.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -26,8 +26,8 @@ const HOW_IT_WORKS = [
   },
   {
     step: "02",
-    title: "We Arrive",
-    desc: "Our team shows up at your home or office, fully equipped — generator, water tank, all tools. No dependencies on your setup.",
+    title: "Drop Off",
+    desc: "Drive your car to our studio in Jodhpur. Our team receives you, does a quick walk-around inspection, and gets straight to work.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="1" y="3" width="15" height="13" rx="2"/>
@@ -38,8 +38,8 @@ const HOW_IT_WORKS = [
   },
   {
     step: "03",
-    title: "We Detail",
-    desc: "Same products, same standards as our studio. We work while you carry on with your day — completely hands-off for you.",
+    title: "Expert Detailing",
+    desc: "Your car is treated in our climate-controlled bay using professional-grade equipment — paint booths, ceramic coating stations, and precision tools.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -48,8 +48,8 @@ const HOW_IT_WORKS = [
   },
   {
     step: "04",
-    title: "Collect & Go",
-    desc: "We clean up, you inspect. Pay only when you're happy. Your car's never looked better — right at your doorstep.",
+    title: "Pick Up & Drive",
+    desc: "We notify you when it's ready. Inspect every inch, pay only when satisfied. Drive away in a car that looks better than the day you bought it.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="20 6 9 17 4 12"/>
@@ -60,35 +60,39 @@ const HOW_IT_WORKS = [
 
 const SERVICES_AVAILABLE = [
   { name: "Exterior Foam Wash",      available: true },
-  { name: "Interior Vacuum & Clean", available: true },
-  { name: "Steam & Dry Wash",        available: true },
+  { name: "Interior Deep Clean",     available: true },
   { name: "Paint Correction",        available: true },
-  { name: "Ceramic Coating",         available: false, note: "Studio only" },
-  { name: "PPF Application",         available: false, note: "Studio only" },
+  { name: "Ceramic Coating",         available: true },
+  { name: "PPF Application",         available: true },
   { name: "Engine Bay Detail",       available: true },
   { name: "Odour Elimination",       available: true },
+  { name: "Full Detailing Package",  available: true },
 ];
 
 const FAQS = [
   {
-    q: "How much space do you need?",
-    a: "We need roughly 3–4 feet of clearance around the car and a flat surface. A driveway, parking lot, or open basement works perfectly.",
+    q: "How long will my car be at the studio?",
+    a: "It depends on the service. A foam wash takes 2–3 hours, paint correction typically a full day, and ceramic coating 1–2 days. We'll give you an exact estimate when you book.",
   },
   {
-    q: "Is the quality the same as your studio?",
-    a: "Absolutely. We use the exact same products and processes. The only difference is the location — your driveway instead of our bay.",
+    q: "Do I need to stay while the work is being done?",
+    a: "Not at all. Simply drop off your car, and we'll call or WhatsApp you when it's ready. Most customers head home, to work, or run errands.",
   },
   {
-    q: "What areas in Jodhpur do you cover?",
-    a: "We cover all areas within Jodhpur city.",
+    q: "Where is the studio located?",
+    a: "Our studio is in Jodhpur. Once you book, we'll share the exact address and directions on WhatsApp.",
+  },
+  {
+    q: "Can you handle luxury or modified cars?",
+    a: "Absolutely. We regularly work with high-end, modified, and vintage vehicles. Our team is trained to handle all types with the care they deserve.",
   },
 ];
 
 /* ── DateTimePicker ───────────────────────── */
 const TIME_SLOTS = [
-  "9:00 AM", "10:00 AM", "11:00 AM",
+    "9:00 AM", "10:00 AM", "11:00 AM",
   "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM",
-  "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
+  "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"
 ];
 
 const MONTHS = [
@@ -149,16 +153,13 @@ function DateTimePicker({ value, onChange }: { value: string; onChange: (v: stri
     selectedDate.getMonth() === viewMonth &&
     selectedDate.getDate() === day;
 
-  const DAY_SIZE = 30; // px — controls cell size uniformly
+  const DAY_SIZE = 30;
 
-  // Detect mobile AFTER mount to avoid SSR hydration mismatch
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   React.useEffect(() => {
     const mq = window.matchMedia("(max-width: 500px)");
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
     mq.addEventListener("change", handler);
-    // Use queueMicrotask to set initial value outside the effect body
-    // so it doesn't trigger the react-hooks/set-state-in-effect lint rule
     const timeout = setTimeout(() => setIsMobile(mq.matches), 0);
     return () => {
       mq.removeEventListener("change", handler);
@@ -166,16 +167,12 @@ function DateTimePicker({ value, onChange }: { value: string; onChange: (v: stri
     };
   }, []);
 
-  // null = not yet mounted (SSR) → show panel (safe default matches desktop)
-  // false = desktop → always show panel
-  // true  = mobile  → only show panel once a date is selected
   const showSlotsPanel = isMobile === null ? true : !isMobile || !!selectedDate;
 
   return (
     <div>
-      <Label>Preferred Date & Time</Label>
+      <Label>Preferred Drop-off Date & Time</Label>
 
-      {/* Confirmed pill */}
       {value && (
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 8,
@@ -191,7 +188,6 @@ function DateTimePicker({ value, onChange }: { value: string; onChange: (v: stri
         </div>
       )}
 
-      {/* Outer wrapper — side by side on desktop, stacks on mobile */}
       <div className="dtp-wrap" style={{
         background: "rgba(255,255,255,0.03)",
         border: "1px solid rgba(255,255,255,0.08)",
@@ -199,11 +195,8 @@ function DateTimePicker({ value, onChange }: { value: string; onChange: (v: stri
         overflow: "hidden",
         display: "flex",
       }}>
-
         {/* ── LEFT: Calendar ── */}
         <div style={{ flex: "0 0 auto", padding: "12px 12px 14px" }}>
-
-          {/* Month nav */}
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
             marginBottom: 8,
@@ -249,7 +242,6 @@ function DateTimePicker({ value, onChange }: { value: string; onChange: (v: stri
             </button>
           </div>
 
-          {/* Day headers */}
           <div style={{ display: "grid", gridTemplateColumns: `repeat(7, ${DAY_SIZE}px)`, gap: 2, marginBottom: 2 }}>
             {DAYS_SHORT.map((d) => (
               <div key={d} style={{
@@ -261,7 +253,6 @@ function DateTimePicker({ value, onChange }: { value: string; onChange: (v: stri
             ))}
           </div>
 
-          {/* Day cells */}
           <div style={{ display: "grid", gridTemplateColumns: `repeat(7, ${DAY_SIZE}px)`, gap: 2 }}>
             {cells.map((day, i) => {
               if (!day) return <div key={i} style={{ width: DAY_SIZE, height: DAY_SIZE }} />;
@@ -304,131 +295,93 @@ function DateTimePicker({ value, onChange }: { value: string; onChange: (v: stri
           </div>
         </div>
 
-        {/* ── DIVIDER — hidden on mobile until date selected ── */}
         {showSlotsPanel && (
           <div className="dtp-divider" style={{ width: 1, background: "rgba(255,255,255,0.06)", flexShrink: 0 }} />
         )}
 
-        {/* ── RIGHT: Time slots — on mobile only appears after date is picked ── */}
         {showSlotsPanel && (
-        <div style={{ flex: 1, padding: "12px 12px 14px", display: "flex", flexDirection: "column" }}>
-          <div style={{
-            fontFamily: "'Outfit', sans-serif", fontSize: 9, fontWeight: 600,
-            letterSpacing: "0.18em", textTransform: "uppercase",
-            color: selectedDate ? "rgba(62,156,64,0.75)" : "rgba(255,255,255,0.18)",
-            marginBottom: 8,
-          }}>
-            {selectedDate
-              ? `${selectedDate.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" })}`
-              : "Select a date first"}
-          </div>
+          <div style={{ flex: 1, padding: "12px 12px 14px", display: "flex", flexDirection: "column" }}>
+            <div style={{
+              fontFamily: "'Outfit', sans-serif", fontSize: 9, fontWeight: 600,
+              letterSpacing: "0.18em", textTransform: "uppercase",
+              color: selectedDate ? "rgba(62,156,64,0.75)" : "rgba(255,255,255,0.18)",
+              marginBottom: 8,
+            }}>
+              {selectedDate
+                ? `${selectedDate.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" })}`
+                : "Select a date first"}
+            </div>
 
-          <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5,
-            opacity: selectedDate ? 1 : 0.35,
-            pointerEvents: selectedDate ? "auto" : "none",
-            transition: "opacity 0.2s",
-          }}>
-            {TIME_SLOTS.map((slot) => {
-              const active = selectedSlot === slot;
-              return (
-                <button
-                  key={slot} type="button"
-                  onClick={() => selectSlot(slot)}
-                  style={{
-                    background: active ? "#3E9C40" : "rgba(255,255,255,0.04)",
-                    border: `1px solid ${active ? "#3E9C40" : "rgba(255,255,255,0.07)"}`,
-                    borderRadius: 5,
-                    padding: "6px 4px",
-                    cursor: "pointer",
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: 11, fontWeight: active ? 700 : 400,
-                    color: active ? "#fff" : "rgba(255,255,255,0.5)",
-                    transition: "all 0.12s",
-                    textAlign: "center",
-                    whiteSpace: "nowrap",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!active) {
-                      (e.currentTarget as HTMLElement).style.background = "rgba(62,156,64,0.1)";
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(62,156,64,0.4)";
-                      (e.currentTarget as HTMLElement).style.color = "#fff";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) {
-                      (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)";
-                      (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)";
-                    }
-                  }}
-                >
-                  {slot}
-                </button>
-              );
-            })}
+            <div style={{
+              display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5,
+              opacity: selectedDate ? 1 : 0.35,
+              pointerEvents: selectedDate ? "auto" : "none",
+              transition: "opacity 0.2s",
+            }}>
+              {TIME_SLOTS.map((slot, i) => {
+                const active = selectedSlot === slot;
+                return (
+                  <button
+                    key={`${slot}-${i}`} type="button"
+                    onClick={() => selectSlot(slot)}
+                    style={{
+                      background: active ? "#3E9C40" : "rgba(255,255,255,0.04)",
+                      border: `1px solid ${active ? "#3E9C40" : "rgba(255,255,255,0.07)"}`,
+                      borderRadius: 5,
+                      padding: "6px 4px",
+                      cursor: "pointer",
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: 11, fontWeight: active ? 700 : 400,
+                      color: active ? "#fff" : "rgba(255,255,255,0.5)",
+                      transition: "all 0.12s",
+                      textAlign: "center",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!active) {
+                        (e.currentTarget as HTMLElement).style.background = "rgba(62,156,64,0.1)";
+                        (e.currentTarget as HTMLElement).style.borderColor = "rgba(62,156,64,0.35)";
+                        (e.currentTarget as HTMLElement).style.color = "#fff";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!active) {
+                        (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+                        (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)";
+                        (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)";
+                      }
+                    }}
+                  >{slot}</button>
+                );
+              })}
+            </div>
           </div>
-        </div>
         )}
       </div>
     </div>
   );
 }
 
-/* ── WhatsApp Form ───────────────────────── */
+/* ── Enquiry Form ────────────────────────── */
 function EnquiryForm() {
   const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    car: "",
-    service: "",
-    address: "",
-    date: "",
-    message: "",
+    name: "", phone: "", car: "", service: "", date: "", message: "",
   });
-
-  const set = (k: string) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-      setForm((f) => ({ ...f, [k]: e.target.value }));
-
-  const SERVICE_LABELS: Record<string, string> = {
-    foam:     "Exterior Foam Wash",
-    interior: "Interior Deep Clean",
-    steam:    "Steam & Dry Wash",
-    full:     "Full Wash Package",
-    paint:    "Paint Correction",
-    ceramic:  "Ceramic Coating",
-    engine:   "Engine Bay Detail",
-    odour:    "Odour Elimination",
-    custom:   "Custom / Ask Us",
-  };
+  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm(f => ({ ...f, [key]: e.target.value }));
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.service === "ceramic") {
-      window.alert("Ceramic Coating is available only at our studio. Please book Studio or contact us.");
-      return;
-    }
-    const serviceName = SERVICE_LABELS[form.service] || form.service || "Not specified";
-    const text = [
-      `Hello GlossiGo! 👋 I'd like to book a *Doorstep Detailing* service.`,
+    const lines = [
+      `*GlossiGo Studio Booking*`,
       ``,
       `*Name:* ${form.name}`,
       `*Phone:* ${form.phone}`,
       `*Car:* ${form.car || "Not specified"}`,
-      `*Service:* ${serviceName}`,
-      `*Address:* ${form.address}`,
-      form.date ? `*Preferred Date/Time:* ${form.date}` : null,
-      form.message ? `*Message:* ${form.message}` : null,
-    ]
-      .filter((l) => l !== null)
-      .join("\n");
-
-    window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+      `*Service:* ${form.service || "Not specified"}`,
+      `*Drop-off:* ${form.date || "Flexible"}`,
+      form.message ? `*Notes:* ${form.message}` : "",
+    ].filter(Boolean).join("\n");
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines)}`, "_blank");
   };
 
   const inputStyle: React.CSSProperties = {
@@ -506,27 +459,15 @@ function EnquiryForm() {
             <option value="" disabled>Select a service…</option>
             <option value="foam">Exterior Foam Wash</option>
             <option value="interior">Interior Deep Clean</option>
-            <option value="steam">Steam & Dry Wash</option>
-            <option value="full">Full Wash Package</option>
             <option value="paint">Paint Correction</option>
-            <option value="ceramic" disabled>Ceramic Coating — Studio only</option>
+            <option value="ceramic">Ceramic Coating</option>
+            <option value="ppf">PPF Application</option>
             <option value="engine">Engine Bay Detail</option>
             <option value="odour">Odour Elimination</option>
+            <option value="full">Full Detailing Package</option>
             <option value="custom">Custom / Ask Us</option>
           </select>
         </div>
-      </div>
-
-      {/* Address */}
-      <div>
-        <Label>Your Address / Location</Label>
-        <input
-          style={inputStyle} type="text"
-          placeholder="e.g. Flat 4B, Pratap Nagar, Jodhpur"
-          value={form.address} onChange={set("address")} required
-          onFocus={(e) => { e.target.style.borderColor = "rgba(62,156,64,0.5)"; e.target.style.background = "rgba(62,156,64,0.04)"; }}
-          onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.08)"; e.target.style.background = "rgba(255,255,255,0.03)"; }}
-        />
       </div>
 
       {/* Preferred date — Calendar + Time Slot Picker */}
@@ -540,7 +481,7 @@ function EnquiryForm() {
         <Label>Additional Notes</Label>
         <textarea
           style={{ ...inputStyle, resize: "vertical" }} rows={3}
-          placeholder="Any special requests, parking notes, or questions…"
+          placeholder="Any special requests, specific concerns about the car, or questions…"
           value={form.message} onChange={set("message")}
           onFocus={(e) => { e.target.style.borderColor = "rgba(62,156,64,0.5)"; e.target.style.background = "rgba(62,156,64,0.04)"; }}
           onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.08)"; e.target.style.background = "rgba(255,255,255,0.03)"; }}
@@ -573,7 +514,7 @@ function EnquiryForm() {
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
           <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.103 1.51 5.833L.036 24l6.324-1.654A11.93 11.93 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.78 9.78 0 0 1-5.002-1.374l-.36-.213-3.714.972.993-3.62-.235-.374A9.78 9.78 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/>
         </svg>
-        Send Enquiry on WhatsApp
+        Book Studio Slot on WhatsApp
       </button>
 
       <p style={{
@@ -637,7 +578,6 @@ function FaqItem({ item }: { item: typeof FAQS[0] }) {
         opacity: open ? 1 : 0,
         transition: "max-height 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.28s ease",
         paddingLeft: open ? 16 : 0,
-        transition2: "padding-left 0.2s",
       } as React.CSSProperties}>
         <p style={{
           fontFamily: "'Outfit', sans-serif", fontSize: 13.5,
@@ -666,7 +606,7 @@ function Label({ children }: { children: React.ReactNode }) {
 }
 
 /* ── PAGE ────────────────────────────────── */
-export default function DoorstepPage() {
+export default function StudioPage() {
   return (
     <>
       <style>{`
@@ -722,7 +662,6 @@ export default function DoorstepPage() {
         @media (max-width: 480px) {
           .dp-timeslot-grid { grid-template-columns: repeat(3, 1fr) !important; }
         }
-        /* DateTimePicker: stack vertically on narrow screens */
         @media (max-width: 500px) {
           .dtp-wrap { flex-direction: column !important; }
           .dtp-wrap > div:nth-child(2) { width: 100% !important; height: 1px !important; }
@@ -765,7 +704,7 @@ export default function DoorstepPage() {
           whiteSpace: "nowrap", lineHeight: 1,
           userSelect: "none", letterSpacing: "-6px",
           pointerEvents: "none",
-        }}>Doorstep</div>
+        }}>Studio</div>
 
         <div className="dp-container" style={{ position: "relative", zIndex: 1, padding: "96px 24px 80px" }}>
           {/* Breadcrumb */}
@@ -777,52 +716,47 @@ export default function DoorstepPage() {
             fontSize: 11, color: "rgba(255,255,255,0.22)",
             letterSpacing: "0.15em", textTransform: "uppercase",
           }}>
-            <Link href="/" style={{ color: "rgba(62,156,64,0.75)", textDecoration: "none" }}>Home</Link>
-            <span>›</span>
-            <span>Doorstep Detailing</span>
+            <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
+            <span style={{ opacity: 0.4 }}>›</span>
+            <span style={{ color: "rgba(62,156,64,0.75)" }}>Studio</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 48, flexWrap: "wrap" }}>
-            <div style={{ maxWidth: 600 }}>
-              {/* Eyebrow */}
-              <div className="fu" style={{
-                animationDelay: "0.1s",
-                display: "flex", alignItems: "center", gap: 12, marginBottom: 20,
-              }}>
-                <div style={{ width: 26, height: 1, background: "rgba(62,156,64,0.5)" }} />
-                <span style={{
-                  fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 600,
-                  letterSpacing: "0.25em", textTransform: "uppercase",
-                  color: "rgba(62,156,64,0.85)",
-                }}>Doorstep Detailing</span>
-                <span style={{
-                  fontFamily: "'Outfit', sans-serif", fontSize: 8, fontWeight: 700,
-                  letterSpacing: "0.18em", textTransform: "uppercase",
-                  color: "#fff", background: "#3E9C40",
-                  padding: "2px 8px", borderRadius: 100,
-                }}>Live in Jodhpur</span>
+          <div style={{
+            display: "flex", gap: 64, alignItems: "flex-start", flexWrap: "wrap",
+          }}>
+            {/* Left: headline */}
+            <div style={{ flex: "1 1 340px", maxWidth: 560 }}>
+              <div className="fu" style={{ animationDelay: "0.1s", marginBottom: 14 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ width: 26, height: 1, background: "rgba(62,156,64,0.5)" }} />
+                  <span style={{
+                    fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 600,
+                    letterSpacing: "0.25em", textTransform: "uppercase",
+                    color: "rgba(62,156,64,0.85)",
+                  }}>GlossiGo Studio</span>
+                </div>
               </div>
 
               <h1 className="fu" style={{
-                animationDelay: "0.2s",
+                animationDelay: "0.18s",
                 fontFamily: "'DM Serif Display', serif",
-                fontSize: "clamp(44px, 8vw, 88px)",
-                fontWeight: 400, lineHeight: 0.95, letterSpacing: "-0.03em",
+                fontSize: "clamp(40px, 6vw, 72px)", fontWeight: 400,
+                lineHeight: 1.0, letterSpacing: "-0.03em",
                 color: "#fff", marginBottom: 24,
               }}>
-                We Come<br />
-                <em style={{ fontStyle: "italic", color: "#3E9C40" }}>To You</em>
+                Where Precision<br />
+                <em style={{ fontStyle: "italic", color: "#3E9C40" }}>Meets the Bay.</em>
               </h1>
 
               <p className="fu" style={{
-                animationDelay: "0.3s",
+                animationDelay: "0.26s",
                 fontFamily: "'Outfit', sans-serif", fontSize: 15,
                 lineHeight: 1.78, color: "rgba(255,255,255,0.38)",
                 marginBottom: 36, maxWidth: 460,
               }}>
-                GlossiGo&apos;s full studio experience — ceramic coatings, paint correction,
-                interior cleans — at your home or office. No traffic, no waiting.
-                Just a perfectly detailed car waiting for you.
+                Bring your car to our professional detailing studio — equipped for ceramic coatings,
+                paint correction, PPF, and full interior restoration. Every job treated like
+                it&apos;s the only car in the bay.
               </p>
 
               {/* Availability pill */}
@@ -842,7 +776,7 @@ export default function DoorstepPage() {
                   fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 500,
                   letterSpacing: "0.15em", textTransform: "uppercase",
                   color: "rgba(62,156,64,0.8)",
-                }}>Available across Jodhpur</span>
+                }}>Studio open in Jodhpur</span>
               </div>
 
               <div className="fu" style={{
@@ -860,7 +794,7 @@ export default function DoorstepPage() {
                 onMouseEnter={(e) => (e.currentTarget.style.background = "#2d7a2f")}
                 onMouseLeave={(e) => (e.currentTarget.style.background = "#3E9C40")}
                 >
-                  Book a Slot →
+                  Book a Studio Slot →
                 </a>
                 <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" style={{
                   display: "inline-flex", alignItems: "center", gap: 8,
@@ -888,9 +822,9 @@ export default function DoorstepPage() {
             {/* Right: quick facts */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, minWidth: 220 }}>
               {[
-                { label: "Self-sufficient unit", desc: "Own water + generator" },
-                { label: "All services available", desc: "Same as studio" },
-                { label: "Anywhere in Jodhpur", desc: "Home, office, society" },
+                { label: "Professional Bay", desc: "Climate-controlled studio" },
+                { label: "All Services", desc: "Including PPF & Ceramic" },
+                { label: "Drop & Go", desc: "No waiting around" },
                 { label: "Book in 2 minutes", desc: "WhatsApp confirmation" },
               ].map((f) => (
                 <div key={f.label} style={{
@@ -938,7 +872,7 @@ export default function DoorstepPage() {
               fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 400,
               lineHeight: 1.0, letterSpacing: "-0.02em", color: "#fff",
             }}>
-              How It <em style={{ fontStyle: "italic", color: "#3E9C40" }}>Works</em>
+              Your Studio <em style={{ fontStyle: "italic", color: "#3E9C40" }}>Experience</em>
             </h2>
           </div>
 
@@ -992,14 +926,14 @@ export default function DoorstepPage() {
                 color: "#fff", marginBottom: 16,
               }}>
                 Book Your<br />
-                <em style={{ fontStyle: "italic", color: "#3E9C40" }}>Doorstep Slot</em>
+                <em style={{ fontStyle: "italic", color: "#3E9C40" }}>Studio Slot</em>
               </h2>
               <p style={{
                 fontFamily: "'Outfit', sans-serif", fontSize: 13,
                 lineHeight: 1.75, color: "rgba(255,255,255,0.3)",
                 marginBottom: 32,
               }}>
-                Fill in the form and we&apos;ll confirm your booking on WhatsApp.
+                Fill in the form and we&apos;ll confirm your studio appointment on WhatsApp.
               </p>
 
               {/* Services available */}
@@ -1012,7 +946,7 @@ export default function DoorstepPage() {
                   fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 600,
                   letterSpacing: "0.2em", textTransform: "uppercase",
                   color: "rgba(255,255,255,0.2)", marginBottom: 16,
-                }}>Services at doorstep</div>
+                }}>Services at studio</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {SERVICES_AVAILABLE.map((s) => (
                     <div key={s.name} style={{
@@ -1029,14 +963,6 @@ export default function DoorstepPage() {
                           color: s.available ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.2)",
                         }}>{s.name}</span>
                       </div>
-                      {s.note && (
-                        <span style={{
-                          fontFamily: "'Outfit', sans-serif", fontSize: 9,
-                          color: "rgba(255,255,255,0.2)", letterSpacing: "0.1em",
-                          textTransform: "uppercase", background: "rgba(255,255,255,0.04)",
-                          padding: "2px 8px", borderRadius: 100,
-                        }}>{s.note}</span>
-                      )}
                     </div>
                   ))}
                 </div>
@@ -1129,8 +1055,8 @@ export default function DoorstepPage() {
               color: "#fff", marginBottom: 14,
               position: "relative", zIndex: 1,
             }}>
-              Your Car, Detailed.<br />
-              <em style={{ fontStyle: "italic", color: "#3E9C40" }}>At Your Door.</em>
+              Your Car Deserves<br />
+              <em style={{ fontStyle: "italic", color: "#3E9C40" }}>The Full Treatment.</em>
             </h2>
             <p style={{
               fontFamily: "'Outfit', sans-serif", fontSize: 14,
@@ -1138,7 +1064,7 @@ export default function DoorstepPage() {
               margin: "0 auto 36px", lineHeight: 1.75,
               position: "relative", zIndex: 1,
             }}>
-              Book in 2 minutes. We&apos;ll do the rest.
+              Drop it off. We&apos;ll take care of the rest.
             </p>
             <div style={{
               display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap",
@@ -1154,7 +1080,7 @@ export default function DoorstepPage() {
               }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "#2d7a2f")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "#3E9C40")}
-              >Book Doorstep Slot →</a>
+              >Book Studio Slot →</a>
               <Link href="/" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: "transparent", color: "rgba(255,255,255,0.35)",

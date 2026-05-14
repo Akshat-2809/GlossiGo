@@ -213,7 +213,7 @@ export default function HeroSection() {
               display: "inline-block",
               flexShrink: 0,
             }} />
-            Premium Car Care Studio
+            Jodhpur&apos;s Premium Car Care Studio
           </span>
         </div>
 

@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Footer from "@/components/LandingPage/footer";
 
-const WHATSAPP_NUMBER = "919829256300";
+const WHATSAPP_NUMBER = "919799023966";
 
 type BreakdownItem = {
   label: string;
@@ -67,10 +69,8 @@ const BASIC_PLANS = [
     popular: true,
     features: [
       "Everything in Full Wash",
-      "Foam cannon pre-wash",
       "Clay bar treatment",
-      "Sealant application",
-      "Interior deep clean",
+      "Tyre restoration",
     ],
   },
 ];
@@ -82,18 +82,20 @@ const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     badge: "90-Day Plan",
     name: "Essential",
     tagline: "Consistent care, consistent shine.",
-    originalPrice: "₹8,750",
+    originalPrice: "₹9,350",
     ourPrice: "₹7,999",
-    saving: "Save ₹751",
+    saving: "Save ₹1,351",
     perDay: "Just ₹88/day",
     highlight: false,
     breakdown: [
-      { label: "25 Top Washes",    calc: "25 × ₹350",  value: "₹8,750", isDiscount: false },
-      { label: "GlossiGo Discount", calc: "Special off", value: "−₹751",  isDiscount: true  },
-      { label: "Total",             calc: "",            value: "₹7,999",  isTotal: true     },
+      { label: "25 Top Washes",      calc: "25 × ₹350",  value: "₹8,750", isDiscount: false },
+      { label: "3 Interior Dry Cleans", calc: "3 × ₹200", value: "₹600",  isDiscount: false },
+      { label: "GlossiGo Discount",  calc: "Special off", value: "−₹1,351", isDiscount: true  },
+      { label: "Total",              calc: "",            value: "₹7,999",  isTotal: true     },
     ],
     features: [
       "25 top washes over 90 days",
+      "3 interior dry cleans",
       "1 wash every 4th day",
       "Exterior foam wash each visit",
       "Hand dry & tyre shine",
@@ -109,22 +111,21 @@ const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     badge: "90-Day Plan",
     name: "Premium",
     tagline: "Everything your car needs, nothing it doesn't.",
-    originalPrice: "₹10,750",
+    originalPrice: "₹11,150",
     ourPrice: "₹9,999",
-    saving: "Save ₹751",
+    saving: "Save ₹1,151",
     perDay: "Just ₹111/day",
     highlight: true,
     breakdown: [
       { label: "25 Top Washes",     calc: "25 × ₹350",    value: "₹8,750",  isDiscount: false, isTotal: false },
-      { label: "5 Interior Cleans", calc: "5 × ₹200",     value: "₹1,000",  isDiscount: false, isTotal: false },
+      { label: "7 Interior Cleans", calc: "7 × ₹200",     value: "₹1,400",  isDiscount: false, isTotal: false },
       { label: "1 Add-on Service",  calc: "up to ₹1,000", value: "₹1,000",  isDiscount: false, isTotal: false },
-      { label: "Dry Clean",         calc: "Flat off",      value: "−₹500",   isDiscount: true,  isTotal: false },
-      { label: "GlossiGo Discount", calc: "Special off",   value: "−₹251",   isDiscount: true,  isTotal: false },
+      { label: "GlossiGo Discount", calc: "Special off",   value: "−₹1,151", isDiscount: true,  isTotal: false },
       { label: "Total",             calc: "",              value: "₹9,999",  isDiscount: false, isTotal: true  },
     ],
     features: [
       "25 top washes over 90 days",
-      "5 interior deep cleans",
+      "7 interior deep cleans",
       "1 free add-on (up to ₹1,000)",
       "Flat ₹500 off on any dry clean",
       "Hand dry & tyre shine every visit",
@@ -452,7 +453,7 @@ function Eyebrow({ text }: { text: string }) {
 /* ── BASIC PLAN CARD ─────────────────────── */
 function BasicCard({ plan }: { plan: typeof BASIC_PLANS[0] }) {
   const [hovered, setHovered] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   return (
     <div
@@ -567,16 +568,8 @@ function BasicCard({ plan }: { plan: typeof BASIC_PLANS[0] }) {
           ))}
         </ul>
 
-        {showModal && (
-          <BookingModal
-            planName={plan.name}
-            planPrice={plan.price + " per visit"}
-            waMessageTemplate=""
-            onClose={() => setShowModal(false)}
-          />
-        )}
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => router.push("/book-now")}
           style={{
             display: "block", width: "100%", textAlign: "center",
             padding: "13px 20px", borderRadius: 4,
@@ -638,7 +631,7 @@ function SubscriptionCard({ plan }: { plan: typeof SUBSCRIPTION_PLANS[0] }) {
       }} />
 
       {/* Header band */}
-      <div style={{
+      <div className="sub-card-header-pad" style={{
         padding: "28px 32px 24px",
         borderBottom: `1px solid ${plan.highlight ? "rgba(62,156,64,0.15)" : "rgba(255,255,255,0.05)"}`,
         position: "relative",
@@ -654,7 +647,7 @@ function SubscriptionCard({ plan }: { plan: typeof SUBSCRIPTION_PLANS[0] }) {
           pointerEvents: "none",
         }} />
 
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+        <div className="sub-card-header" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
           <div>
             {/* Badge */}
             <div style={{
@@ -684,18 +677,18 @@ function SubscriptionCard({ plan }: { plan: typeof SUBSCRIPTION_PLANS[0] }) {
             }}>{plan.name}</div>
             <div style={{
               fontFamily: "'Outfit', sans-serif", fontSize: 12, fontStyle: "italic",
-              color: "rgba(255,255,255,0.3)",
+              fontWeight: 700, color: "#fff",
             }}>{plan.tagline}</div>
           </div>
 
           {/* Price block */}
-          <div style={{ textAlign: "right" }}>
-            <div style={{
+          <div className="sub-card-price" style={{ textAlign: "right" }}>
+            <div className="sub-card-price-original" style={{
               fontFamily: "'Outfit', sans-serif", fontSize: 11,
               color: "rgba(255,255,255,0.25)", textDecoration: "line-through",
               marginBottom: 2,
             }}>{plan.originalPrice}</div>
-            <div style={{
+            <div className="sub-card-price-main" style={{
               fontFamily: "'DM Serif Display', serif",
               fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 400,
               color: plan.highlight ? "#3E9C40" : "#fff",
@@ -731,26 +724,26 @@ function SubscriptionCard({ plan }: { plan: typeof SUBSCRIPTION_PLANS[0] }) {
           <span style={{ fontSize: 14 }}>⚡</span>
           <span style={{
             fontFamily: "'Outfit', sans-serif", fontSize: 13, fontWeight: 700,
-            color: plan.highlight ? "#3E9C40" : "rgba(255,255,255,0.6)",
+            color: "#fff",
           }}>{plan.perDay}</span>
           <span style={{
             fontFamily: "'Outfit', sans-serif", fontSize: 11,
-            color: "rgba(255,255,255,0.25)",
+            color: "#fff",
           }}>for premium car care</span>
         </div>
       </div>
 
       {/* Body */}
-      <div style={{ padding: "24px 32px 32px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
+      <div className="sub-card-pad" style={{ padding: "24px 32px 32px" }}>
+        <div className="sub-card-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
           {/* Features */}
           <div>
             <div style={{
               fontFamily: "'Outfit', sans-serif", fontSize: 9, fontWeight: 700,
               letterSpacing: "0.22em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.2)", marginBottom: 14,
+              color: "#fff", marginBottom: 14,
             }}>{"What\u2019s included"}</div>
-            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
+            <ul className="sub-card-features-list" style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
               {plan.features.map((f) => (
                 <li key={f} style={{
                   display: "flex", alignItems: "flex-start", gap: 9,
@@ -773,7 +766,7 @@ function SubscriptionCard({ plan }: { plan: typeof SUBSCRIPTION_PLANS[0] }) {
                 background: "transparent", border: "none", cursor: "pointer", padding: 0,
                 fontFamily: "'Outfit', sans-serif", fontSize: 9, fontWeight: 700,
                 letterSpacing: "0.22em", textTransform: "uppercase",
-                color: "rgba(255,255,255,0.2)", marginBottom: 14,
+                color: "#fff", marginBottom: 14,
               }}
             >
               Price breakdown
@@ -970,6 +963,15 @@ export default function PlansPage() {
         }
         @media (max-width: 640px) {
           .pp-basic-grid { max-width: 100% !important; }
+          .sub-card-header { flex-direction: column !important; gap: 12px !important; }
+          .sub-card-price  { text-align: left !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; flex-wrap: wrap !important; }
+          .sub-card-price-original { margin-bottom: 0 !important; }
+          .sub-card-price-main { font-size: 32px !important; }
+          .sub-card-body   { grid-template-columns: 1fr !important; gap: 20px !important; }
+          .sub-card-features-list { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+          .sub-card-features-list li { font-size: 11px !important; }
+          .sub-card-pad { padding: 18px 18px 24px !important; }
+          .sub-card-header-pad { padding: 20px 18px 18px !important; }
         }
       `}</style>
 
@@ -1112,7 +1114,7 @@ export default function PlansPage() {
                   background: "rgba(62,156,64,0.4)", display: "inline-block",
                   flexShrink: 0,
                 }} />
-                6-Month Plan — Coming Soon
+                <span style={{ color: "#fff" }}>6-Month Plan — Coming Soon</span>
               </div>
             </div>
           </div>
@@ -1168,7 +1170,7 @@ export default function PlansPage() {
               position: "relative", zIndex: 1,
             }}>
               <button
-                onClick={() => sendToWhatsApp("Hello GlossiGo! 👋 I'd like help choosing the right plan for my car.")}
+                onClick={() => sendToWhatsApp("Hello GlossiGo! I'd like help choosing the right plan for my car.")}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 8,
                   background: "#3E9C40", color: "#fff",
@@ -1202,6 +1204,8 @@ export default function PlansPage() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </main>
   );
 }

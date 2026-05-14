@@ -25,7 +25,7 @@ export default function BookNowModal() {
   const pick = (type: "doorstep" | "studio") => {
     setSelected(type);
     setTimeout(() => {
-      router.push(type === "doorstep" ? "/doorstep" : "/book-studio");
+      router.push(type === "doorstep" ? "/doorstep" : "/studio");
     }, 260);
   };
 
@@ -496,13 +496,13 @@ export default function BookNowModal() {
               textAlign: "center", marginTop: 20, lineHeight: 1.6,
             }}>
               Not sure?{" "}
-              <a href="tel:+919829256300" style={{
+              <a href="tel:+919799023966" style={{
                 color: "rgba(62,156,64,0.55)", textDecoration: "none",
                 transition: "color 0.2s",
               }}
               onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = "#3E9C40")}
               onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = "rgba(62,156,64,0.55)")}>
-                Call +91 98292 56300
+                Call +91 97990 23966
               </a>
               {" "}and we&apos;ll help you decide.
             </p>

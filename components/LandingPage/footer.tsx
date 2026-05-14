@@ -5,15 +5,15 @@ import Link from "next/link";
 
 const FOOTER_DATA = {
   address: "G-27, Ward 23 Rd, Sector-A\nShastri Nagar, Jodhpur\nRajasthan 342003",
-  phone: "9829256300",
+  phone: "9799023966",
   email: "hello@glossigo.com",
   hours: {
     working: "Mon – Sun: 9:00 AM – 8:00 PM",
 
   },
   socials: {
-    instagram: "https://instagram.com/glossigo",   
-    whatsapp:  "https://wa.me/919829256300",       
+    instagram: "https://www.instagram.com/glossigodetailing/",   
+    whatsapp:  "https://wa.me/919799023966",       
     youtube:   "",                                
   },
   mapLink: "https://maps.google.com/?q=Jodhpur+Rajasthan", 
@@ -21,22 +21,21 @@ const FOOTER_DATA = {
 
 const NAV_LINKS = {
   Services: [
-    { label: "Ceramic Coating",    href: "/#services" },
-    { label: "Paint Correction",   href: "/#services" },
-    { label: "PPF Wrapping",       href: "/#services" },
+    { label: "Ceramic Coating",    href: "/ceramic-coating" },
+    { label: "Paint Correction",   href: "/paint-correction" },
+    { label: "PPF Wrapping",       href: "/ppf" },
     { label: "Interior Detail",    href: "/#services" },
     { label: "Steam & Dry Wash",   href: "/#services" },
     { label: "Engine Bay",         href: "/#services" },
   ],
   Studio: [
-    { label: "About Us",   href: "/about"   },
+    { label: "About Us",   href: "#about-us"   },
     { label: "Gallery",    href: "/gallery" },
     { label: "Blog",       href: "/blog"    },
-    { label: "Plans",      href: "/#plans"  },
-    { label: "Contact",    href: "/#contact"},
+    { label: "Plans",      href: "/plans"  },
+    { label: "Contact",    href: "/contact"},
   ],
   Legal: [
-    { label: "Privacy Policy",   href: "/privacy"   },
     { label: "Terms of Service", href: "/terms"     },
     { label: "Refund Policy",    href: "/refunds"   },
   ],
